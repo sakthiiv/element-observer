@@ -1,0 +1,1 @@
+var observerApp = angular.module('observerApp', []);

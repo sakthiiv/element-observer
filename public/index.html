@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="observerApp">
+
+<head>
+	<link rel="stylesheet" type="text/css" href="css/element-observer.css" />
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />	
+	<link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css" />	
+    <title>Element Observer</title>
+
+</head>
+
+<body>
+
+<div class="container-fluid" ng-controller="indexController">
+    <div>
+        <div>
+			<h2>Single Control</h2>		
+            <table class="table" style="width: 100%;">
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Model</td>
+                        <td>{{ ctrlModel }}</td>
+                    </tr>
+                    <tr>
+                        <td>Target</td>
+                        <td>{{ target }}</td>
+                    </tr>
+                </tbody>
+            </table>
+			<table class="table" style="width: 70%;">
+				<tr>
+					<td>
+						<label>
+							<input type="checkbox" element-observer="checkOptions" value="Checkbox1" ng-model="ctrlModel.checkbox1" name="checkboxTest" />
+							Checkbox 1						
+						</label>
+					</td>
+					<td>
+						<div ng-class="target.checkbox === 'Edited' ? 'red' : 'green'"></div>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<input type="text" class="form-control" element-observer="textOptions" ng-model="ctrlModel.textbox" />
+					</td>
+					<td>
+						<div ng-class="target.textbox === 'Edited' ? 'red' : 'green'"></div>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<input id="radio1" element-observer="radioOptions" type="radio" ng-model="ctrlModel.radio" name="radioType" value="radio1" />
+						<label for="radio1">Radio 1</label>
+						<input id="radio2" element-observer="radioOptions" type="radio" ng-model="ctrlModel.radio" name="radioType" value="radio2" />
+						<label for="radio2">Radio 2</label>
+						<input id="radio3" element-observer="radioOptions" type="radio" ng-model="ctrlModel.radio" name="radioType" value="radio3" />
+						<label for="radio3">Radio 3</label>
+					</td>
+					<td>
+						<div ng-class="target.radiobutton === 'Edited' ? 'red' : 'green'"></div>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<select class="form-control" element-observer="selectOptions" ng-model="ctrlModel.selectsingle">
+							<option value="1">First Option</option>
+							<option value="2">Second Option</option>
+							<option value="3">Third Option</option>
+						</select>
+					</td>
+					<td>
+						<div ng-class="target.selectsingle === 'Edited' ? 'red' : 'green'"></div>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<select class="form-control" element-observer="selectMulOptions" multiple ng-model="ctrlModel.selectmultiple">
+							<option value="1">First Option</option>
+							<option value="2">Second Option</option>
+							<option value="3">Third Option</option>
+						</select>
+					</td>
+					<td>
+						<div ng-class="target.selectmultiple === 'Edited' ? 'red' : 'green'"></div>
+					</td>
+				</tr>
+			</table>
+			<hr />
+			<h2>Group Controls</h2>
+            <table class="table" style="width: 70%">
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Model</td>
+                        <td>{{ groupModel }}</td>
+                    </tr>
+                    <tr>
+                        <td>Target</td>
+                        <td>{{ groupTarget }}</td>
+                    </tr>					
+                    <tr>
+                        <td colspan="2">
+                            <table style="width: 70%;">
+                                <tr>
+                                    <td>
+										<label>
+											<input type="checkbox" element-observer="commonOptions" value="Checkbox1" ng-model="groupModel.checkbox" name="checkType" /> Checkbox 1
+										<label/>
+                                    </td>
+                                    <td>
+                                        <div style="width: 20px;" ng-class="groupTarget === 'Edited' ? 'red' : 'green'"></div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <input class="form-control" type="text" element-observer="commonOptions" name="textType" ng-model="groupModel.textbox" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <input id="radio4" element-observer="commonOptions" type="radio" name="radioTypeGroup" value="radio1" ng-model="groupModel.radio" />
+                                        <label for="radio1">Radio 1</label>
+                                        <input id="radio5" element-observer="commonOptions" checked type="radio" name="radioTypeGroup" value="radio2" ng-model="groupModel.radio" />
+                                        <label for="radio2">Radio 2</label>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+	<script type="text/javascript" src="js/libs/jquery.min.js"></script>
+    <script type="text/javascript" src="js/libs/angular.js"></script>	
+	<script type="text/javascript" src="js/app.js"></script>
+    <script type="text/javascript" src="js/controllers/indexController.js"></script>
+    <script type="text/javascript" src="js/directive/elementObserver.js"></script> 
+
+</body>
+
+</html>

@@ -1,0 +1,28 @@
+﻿
+
+div.parent-container {
+    width: 50% !important; 
+    float:left; 
+    margin: 60px 0 0 50px;
+}
+
+.row-item {
+    padding: 5px 0px;
+    border: 1px solid grey;
+}
+
+.green {
+	height: 20px;
+    background: url('/images/clean.png') no-repeat;
+	background-size: 20px 20px;
+}
+
+.red {
+	height: 20px;
+    background: url('/images/dirty.png') no-repeat;
+	background-size: 20px 20px;
+}
+
+.bold {
+    font-weight: bold;
+}
