@@ -1,10 +1,11 @@
 var http    = require('http'),
     url     = require('url'),
     path    = require('path'),
-    fs      = require('fs');
+    fs      = require('fs'),
+	util	= require('util');
 		
 var	defaults = {
-	port: 4001,
+	port: 4040,
 	index: 'index.html',
 	root: 'public',
 	noCache: true,
@@ -33,26 +34,44 @@ var	defaults = {
 	requestReceived
 );
 
+var color = {
+	red: '\x1b[31m',
+	green: '\x1b[32m',
+	yellow: '\x1b[33m',
+	blue: '\x1b[34m',
+	magenta: '\x1b[35m',
+	cyan: '\x1b[36m'
+}, colorReset = '\x1b[0m';
+
 function requestReceived(request, response) {
-	var uri = url.parse(request.url), hostname = [];
+	var uri = url.parse(request.url), hostname = [], logEntry;
 	uri = uri.pathname, root = defaults.root;
 	
 	if (uri === '/')
-		uri = '/' + defaults.index;		
-
+		uri = '/' + defaults.index;
+		
+	if (root.length === 0)
+		root = ".";
+		
 	var filename = path.join(
 		root,
 		uri
 	);
+	
+	logEntry = color.cyan + request.method + colorReset + ' ' + color.green + request.url + colorReset;
+    if (request.headers['user-agent']) {
+        logEntry += ' ' + request.headers['user-agent'];
+    }
+	console.log(logEntry);
 
 	fs.exists(filename, function (exists){
-		serveFile(filename, exists, response);
+		deliverFile(filename, exists, response);
 	});
 };
 
 function alterResponse(response, body, status, headers, encoding) {
-	if (!status)
-		status = 200;
+	if (status in defaults.errors)
+		console.log(color.red, status, body, colorReset);
 
 	if (!headers)
 		headers = defaults.contentTypeDef;
@@ -69,7 +88,7 @@ function alterResponse(response, body, status, headers, encoding) {
 	return;
 }
 
-function serveFile(filename, exists, response) {
+function deliverFile(filename, exists, response) {
 	
 	var contentType = path.extname(filename).slice(1);
 
@@ -89,6 +108,7 @@ function serveFile(filename, exists, response) {
 		function(err, file) {
 			if (err) {
 				alterResponse(response, defaults.errors['500'] + err, 500, defaults.contentTypeDef);
+				console.log(util.inspect(err));
 				return;
 			}
 
@@ -100,14 +120,15 @@ function serveFile(filename, exists, response) {
 				headers['Cache-Control'] = 'no-cache, no-store, must-revalidate';
 
 			alterResponse(response, file, 200, headers, 'binary');
-
 			return;
 		}
 	);
 }
 
 server.listen(defaults.port, function() {
-		console.log('### UI Server listening on port ' + defaults.port + ' ###\n');       
+		console.log('*** UI Server listening on port ' + defaults.port + ' ***');
 	}
 );
+
+
 
